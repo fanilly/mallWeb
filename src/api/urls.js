@@ -5,9 +5,10 @@
  * @Description: api 请求地址
  */
 
-const HOST = 'http://mall.honghuseo.cn';
+const HOST = 'http://mall-seo.hohu.cc';
 const URLS = {
   HOST,
-  GET_GOODS_LIST_URL: `${HOST}/api/getGoodsList`
+  BASE_URL:`${HOST}/public/uploads/`,
+  GET_GOODS_LIST_URL: `${HOST}/goods/index`
 };
 module.exports = URLS;

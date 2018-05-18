@@ -10,9 +10,11 @@ import {
   GET_GOODS_LIST_URL
 } from './urls.js';
 
-const requests = {
+const REQUESTS = {
   //获取商品列表
   getGoosList() {
     return HTTPS.fetchQuickGet(GET_GOODS_LIST_URL);
   }
 };
+
+export const getGoosList = REQUESTS.getGoosList;

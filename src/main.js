@@ -3,10 +3,13 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+import lazyLoad from 'vue-lazyload';
 
 import './styles/common.less';
+import './styles/animate.less';
 import './iconfont/iconfont.css';
 
+Vue.use(lazyLoad);
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
