@@ -1,6 +1,12 @@
 @css-prefix: mj;
 
-.top-line(@color, @line:solid, @zindex: 0) {
+.text-overflow-ellipsis () {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.top-line(@color, @line: solid, @zindex: 0) {
   content: '';
   position: absolute;
   z-index: @zindex;
@@ -14,7 +20,7 @@
   transform-origin: 0 0;
 }
 
-.bottom-line(@color, @line:solid, @zindex: 0) {
+.bottom-line(@color, @line: solid, @zindex: 0) {
   content: '';
   position: absolute;
   z-index: @zindex;
@@ -28,7 +34,7 @@
   transform-origin: 0 0;
 }
 
-.left-line(@color,@line:solid, @zindex: 0) {
+.left-line(@color, @line: solid, @zindex: 0) {
   content: '';
   position: absolute;
   z-index: @zindex;
@@ -42,7 +48,7 @@
   transform-origin: 0 0;
 }
 
-.right-line(@color,@line:solid, @zindex: 0) {
+.right-line(@color, @line: solid, @zindex: 0) {
   content: '';
   position: absolute;
   z-index: @zindex;

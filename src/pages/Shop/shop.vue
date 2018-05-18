@@ -11,12 +11,7 @@
       <scrolltab>
         <scrolltab-panel :label="item.catname" :icon="item.icon || ''" v-for="item,key in classList" :key="key">
           <section class="class-container">
-            <div class="class-item" v-for="(sub, key) in item.goodsList" :key="key">
-              <div class="class-item-lside">
-                <img v-lazy="BASE_URL+sub.goodsthums">
-              </div>
-              <div class="class-item-rside">{{ sub.goodsname }}</div>
-            </div>
+            <goods-item v-for="(sub, key) in item.goodsList" :key="key" :item="sub" :baseurl="BASE_URL"></goods-item>
           </section>
         </scrolltab-panel>
       </scrolltab>
@@ -24,9 +19,10 @@
   </section>
 </template>
 <script>
-import scrolltabPanel from '../../components/scrolltab/scrolltab-panel.vue';
-import scrolltab from '../../components/scrolltab/scrolltab.vue';
-import { BASE_URL } from '../../api/urls.js';
+import scrolltabPanel from '@/components/scrolltab/scrolltab-panel.vue';
+import scrolltab from '@/components/scrolltab/scrolltab.vue';
+import goodsItem from '@/components/goodsItem/goodsItem.vue';
+import { BASE_URL } from '@/api/urls.js';
 import {
   getGoosList
 } from '@/api/index.js';
@@ -36,11 +32,11 @@ export default {
   name: 'Shop',
   data() {
     return {
-      BASE_URL,
+      BASE_URL:BASE_URL,
       classList: []
     };
   },
-  created() {
+  mounted() {
     getGoosList().then(res => {
       console.log(res);
       this.classList = res.data.goods;
@@ -50,7 +46,8 @@ export default {
   },
   components: {
     scrolltabPanel,
-    scrolltab
+    scrolltab,
+    goodsItem
   }
 };
 

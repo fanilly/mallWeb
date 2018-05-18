@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Welcome from '@/pages/Welcome/Welcome';
-import Shop from '@/pages/Shop/Shop';
+
+const Shop = () => import('@/pages/Shop/Shop');
 
 Vue.use(Router);
 

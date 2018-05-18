@@ -9,7 +9,9 @@ import './styles/common.less';
 import './styles/animate.less';
 import './iconfont/iconfont.css';
 
-Vue.use(lazyLoad);
+Vue.use(lazyLoad, {
+  error: require('./assets/loading-error.png')
+});
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
