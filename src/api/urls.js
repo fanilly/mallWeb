@@ -9,6 +9,7 @@ const HOST = 'http://mall-seo.hohu.cc';
 const URLS = {
   HOST,
   BASE_URL:`${HOST}/public/uploads/`,
-  GET_GOODS_LIST_URL: `${HOST}/goods/index`
+  GET_GOODS_LIST_URL: `${HOST}/goods/index`,
+  GET_COUPONS_URL:`${HOST}/Coupons/index`
 };
 module.exports = URLS;

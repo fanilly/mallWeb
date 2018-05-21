@@ -10,19 +10,19 @@
             <img v-lazy="configs.goodsimg" class="logo" alt="店铺头像">
           </section>
           <section class="mall-info-header-rside">
-            <h2 class="mall-name">请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品{{configs.mallName}}</h2>
-            <p class="mall-desc">请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品{{configs.mallDesc}}</p>
+            <h2 class="mall-name">{{configs.mallName}}</h2>
+            <p class="mall-desc">{{configs.mallDesc}}</p>
           </section>
         </section>
         <section class="mall-info-notice-wapper">
           <span class="notice-icon"><i class="iconfont icon-shangjia"></i></span>
-          <h3>本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖</h3>
+          <h3>{{configs.couponsDesc}}</h3>
           <span class="more-icon"><i class="iconfont icon-jiantouyou"></i></span>
         </section>
       </section>
     </header>
     <section class="benefit">
-
+      <coupon v-for="(item,index) of coupons" :key="index" class="coupon" :settings="item"></coupon>
     </section>
     <main class="main">
       <scrolltab>
@@ -48,10 +48,12 @@
 import scrolltabPanel from '@/components/scrolltab/scrolltab-panel.vue';
 import scrolltab from '@/components/scrolltab/scrolltab.vue';
 import goodsItem from '@/components/goodsItem/goodsItem.vue';
+import coupon from '@/components/coupon/coupon.vue';
 import { BASE_URL } from '@/api/urls.js';
 import { setStorage, getStorage, removeStorage } from '@/utils/Storage.js';
 import {
-  getGoosList
+  getGoosList,
+  getCoupons
 } from '@/api/index.js';
 import axios from 'axios';
 
@@ -61,7 +63,8 @@ export default {
     return {
       BASE_URL: BASE_URL,
       classList: [],
-      configs:{}
+      configs:{},
+      coupons:[]
     };
   },
   methods:{
@@ -94,11 +97,17 @@ export default {
     }).catch(err => {
       console.log(err);
     });
+    // 获取优惠券信息
+    getCoupons({userId:1}).then(res=>{
+      console.log(res);
+      this.coupons = res.data;
+    });
   },
   components: {
     scrolltabPanel,
     scrolltab,
-    goodsItem
+    goodsItem,
+    coupon
   }
 };
 

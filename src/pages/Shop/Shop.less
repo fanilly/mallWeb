@@ -52,7 +52,7 @@
         font-size: .36rem;
         color: #fff;
         font-weight: normal;
-        padding: .15rem 0 .1rem;
+        padding: .35rem 0 .1rem;
         overflow-x: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -64,10 +64,11 @@
         word-wrap: break-word;
         line-height: .32rem;
         height: .64rem;
+        white-space: nowrap;
         overflow: hidden;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        display: -webkit-box;
+        // -webkit-line-clamp: 2;
+        // -webkit-box-orient: vertical;
+        // display: -webkit-box;
         overflow-x: hidden;
         text-overflow: ellipsis;
       }
@@ -101,5 +102,15 @@
       display: block;
       padding: 0 .1rem;
     }
+  }
+}
+
+.benefit {
+  text-align: left;
+  white-space: nowrap;
+  overflow-x: scroll;
+  background-color: #F6FBFF;
+  .coupon {
+    margin: 10px;
   }
 }
