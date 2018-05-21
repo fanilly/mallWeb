@@ -26,6 +26,7 @@
   height: 100vh;
   width: 100%;
   position: relative;
+  transition: all ease .4s;
 }
 
 .mall-info {
@@ -65,8 +66,7 @@
         line-height: .32rem;
         height: .64rem;
         white-space: nowrap;
-        overflow: hidden;
-        // -webkit-line-clamp: 2;
+        overflow: hidden; // -webkit-line-clamp: 2;
         // -webkit-box-orient: vertical;
         // display: -webkit-box;
         overflow-x: hidden;
@@ -113,4 +113,16 @@
   .coupon {
     margin: 10px;
   }
+}
+
+.benefit-enter-active,
+.benefit-leave-active {
+  overflow:hidden;
+  transition: all .3s linear;
+}
+
+.benefit-enter,
+.benefit-leave-to {
+  transform: translateY(-30px);
+  opacity: 0;
 }

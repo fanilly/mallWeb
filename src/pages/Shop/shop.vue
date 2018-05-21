@@ -14,16 +14,18 @@
             <p class="mall-desc">{{configs.mallDesc}}</p>
           </section>
         </section>
-        <section class="mall-info-notice-wapper">
+        <section class="mall-info-notice-wapper" @click="toggleCouponsShow">
           <span class="notice-icon"><i class="iconfont icon-shangjia"></i></span>
           <h3>{{configs.couponsDesc}}</h3>
           <span class="more-icon"><i class="iconfont icon-jiantouyou"></i></span>
         </section>
       </section>
     </header>
-    <section class="benefit">
-      <coupon v-for="(item,index) of coupons" :key="index" class="coupon" :settings="item"></coupon>
-    </section>
+    <transition name="benefit">
+      <section class="benefit" v-if="showCoupons">
+        <coupon v-for="(item,index) of coupons" :key="index" class="coupon" :settings="item"></coupon>
+      </section>
+    </transition>
     <main class="main">
       <scrolltab>
         <scrolltab-panel :label="item.catname" :icon="item.icon || ''" v-for="item,index in classList" :key="index">
@@ -61,10 +63,11 @@ export default {
   name: 'Shop',
   data() {
     return {
-      BASE_URL: BASE_URL,
-      classList: [],
-      configs:{},
-      coupons:[]
+      BASE_URL: BASE_URL, //图片根路径
+      classList: [], //商品列表
+      configs:{}, //商城配置
+      showCoupons:false, //是否显示优惠模块
+      coupons:[] //优惠券
     };
   },
   methods:{
@@ -75,6 +78,10 @@ export default {
     //购物车减少
     reduce(options){
       this.classList[options.parentIndex].goodsList[options.currentIndex].count--;
+    },
+    //显示与隐藏优惠券模块
+    toggleCouponsShow(){
+      this.showCoupons = !this.showCoupons;
     }
   },
   mounted() {

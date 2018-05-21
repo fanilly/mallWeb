@@ -11,12 +11,18 @@ export default new Router({
     {
       path: '/',
       name: 'Welcome',
-      component: Welcome
+      component: Welcome,
+      meta:{
+        keepAlive:false
+      }
     },
     {
       path: '/shop',
       name: 'Shop',
-      component: Shop
+      component: Shop,
+      meta:{
+        keepAlive:true
+      }
     }
   ]
 });
