@@ -7,15 +7,23 @@
       <section class="mall-info">
         <section class="mall-info-header">
           <section class="mall-info-header-lside">
-            <img v-lazy="configs.goodsimg" alt="店铺头像">
+            <img v-lazy="configs.goodsimg" class="logo" alt="店铺头像">
           </section>
           <section class="mall-info-header-rside">
-            <h2 class="mall-name">{{configs.mallName}}</h2>
-            <p class="mall-desc">{{configs.mallDesc}}</p>
+            <h2 class="mall-name">请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品{{configs.mallName}}</h2>
+            <p class="mall-desc">请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品请输入关键词搜索商品{{configs.mallDesc}}</p>
           </section>
+        </section>
+        <section class="mall-info-notice-wapper">
+          <span class="notice-icon"><i class="iconfont icon-shangjia"></i></span>
+          <h3>本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖本店产品均为现做现卖</h3>
+          <span class="more-icon"><i class="iconfont icon-jiantouyou"></i></span>
         </section>
       </section>
     </header>
+    <section class="benefit">
+
+    </section>
     <main class="main">
       <scrolltab>
         <scrolltab-panel :label="item.catname" :icon="item.icon || ''" v-for="item,index in classList" :key="index">
