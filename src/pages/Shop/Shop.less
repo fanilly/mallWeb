@@ -2,7 +2,7 @@
   width: 100%;
 }
 
-.header {
+.header-wapper {
   background-image: linear-gradient(to right, #ffa658, #ff8556);
   padding: .2rem 0;
 }
@@ -27,8 +27,10 @@
   width: 100%;
   position: relative;
   transition: all ease .4s;
+  padding-bottom: 1.1rem;
 }
 
+// 店铺信息
 .mall-info {
   &-header {
     display: flex;
@@ -81,6 +83,9 @@
     .notice-icon {
       width: .6rem;
       color: #fff;
+      i {
+        font-size: .4rem;
+      }
     }
     h3 {
       flex: 1;
@@ -102,22 +107,45 @@
       display: block;
       padding: 0 .1rem;
     }
+    .opened {
+      transform: rotateZ(-90deg);
+    }
   }
 }
 
+// 优惠信息
 .benefit {
   text-align: left;
   white-space: nowrap;
   overflow-x: scroll;
-  background-color: #F6FBFF;
+  background-color: #fff;
   .coupon {
     margin: 10px;
+  }
+  &-info {
+    div {
+      display: flex;
+      padding: .02rem .3rem;
+      overflow: hidden;
+      span {
+        font-size: .4rem;
+        position: relative;
+        top: -5px;
+      }
+      p {
+        padding-left: .2rem;
+        font-size: .24rem;
+        color: #353535;
+        text-align: left;
+        line-height: .35rem;
+      }
+    }
   }
 }
 
 .benefit-enter-active,
 .benefit-leave-active {
-  overflow:hidden;
+  overflow: hidden;
   transition: all .3s linear;
 }
 
@@ -125,4 +153,39 @@
 .benefit-leave-to {
   transform: translateY(-30px);
   opacity: 0;
+}
+
+// trolley
+.trolley {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.1rem;
+  z-index: 100;
+  background-color: #fff;
+  border-top: 1px solid #cbcaca;
+  display: flex;
+  align-items: center;
+  .trolley-icon {
+    margin: .1rem;
+  }
+  .count {
+    flex: 1;
+    padding: 0 .2rem;
+    text-align:left;
+    font-size: .24rem;
+    span {
+      font-size: .32rem;
+      color: #ff9057;
+    }
+  }
+  .btn {
+    height: 1.1rem;
+    padding: 0 .4rem;
+    line-height: 1.1rem;
+    font-size: .3rem;
+    color: #fff;
+    background-color: #ff9057;
+  }
 }

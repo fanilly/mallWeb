@@ -8,10 +8,10 @@
       <p class="goods-item-rside-info">{{ item.goodsname }}</p>
       <div class="goods-item-rside-control-box">
         <template v-if="item.count>=1">
-          <span class="icon-box reduce" @click="reduce()"><i class="iconfont icon-iconjian"></i></span>
+          <span class="icon-box reduce" @click.stop="reduce()"><i class="iconfont icon-iconjian"></i></span>
           <span class="count-box">{{item.count}}</span>
         </template>
-        <span class="icon-box plus" @click="plus()"><i class="iconfont icon-iconjia"></i></span>
+        <span class="icon-box plus" @click.stop="plus()"><i class="iconfont icon-iconjia"></i></span>
       </div>
     </section>
   </section>

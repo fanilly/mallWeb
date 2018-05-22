@@ -141,12 +141,14 @@ export default {
 
     //左部导航发生变化 调用回调函数
     activeIndex(index) {
+      this.contentOffsetTop = this.scrollView.getBoundingClientRect().top;
       this.navInView(index);
       this.callback && this.callback(index);
     },
 
     //index 发生变化 页面滚动至对应位置
     index(index) {
+      this.contentOffsetTop = this.scrollView.getBoundingClientRect().top;
       this.scrollContent(index);
       this.activeIndex = index;
     }
