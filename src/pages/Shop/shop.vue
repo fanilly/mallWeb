@@ -59,6 +59,8 @@
       </scrolltab>
     </main>
 
+    <section class="parabola-point" ref="parabolaPoint"></section>
+
     <!-- 底部 -->
     <footer class="trolley">
       <trolley-icon class="trolley-icon" :total="trolleysTotal"></trolley-icon>
@@ -76,6 +78,7 @@ import coupon from '@/components/coupon/coupon.vue';
 import trolleyIcon from '@/components/trolleyIcon/trolleyIcon.vue';
 import { BASE_URL } from '@/api/urls.js';
 import storageUtils from '@/utils/Storage.js';
+import parabola from '@/utils/parabola.js';
 import {
   getGoosList,
   getCoupons
@@ -117,19 +120,38 @@ export default {
     initTrolley() {
       let trolleys = storageUtils.getStorage('trolleys');
       this.trolleys = trolleys ? JSON.parse(trolleys) : [];
-      this.trolleysTotal = this.trolleys.map(item => item.count).reduce((total,num) => total + num);
+      this.trolleysTotal = this.trolleys.map(item => item.count).reduce((total, num) => total + num);
     },
 
     //购物车添加
-    plus(options) {
+    plus(options, e) {
       let currentGoods = this.classList[options.parentIndex].goodsList[options.currentIndex];
       this.trolleysTotal++;
       currentGoods.count++;
       //如果购物车中已经存在当前商品 count +1
       //否则把当前商品存入购物车
-      let index  = this.trolleys.findIndex(item=>currentGoods.goodsid == item.goodsid);
+      let index = this.trolleys.findIndex(item => currentGoods.goodsid == item.goodsid);
       (index != -1 ? this.trolleys[index].count++ : this.trolleys.push(currentGoods));
-      storageUtils.setStorage('trolleys',this.trolleys);
+      storageUtils.setStorage('trolleys', this.trolleys);
+
+      //抛物线动画
+      let circleRadius = this.$refs.parabolaPoint.offsetWidth/2,
+        x = e.clientX,
+        y = e.clientY;
+      this.$refs.parabolaPoint.style.opacity = 1;
+      this.$refs.parabolaPoint.style.left = `${x-circleRadius}px`;
+      this.$refs.parabolaPoint.style.top = `${y-circleRadius}px`;
+      parabola({
+        startPos: { x, y },
+        endPos: { x: 40, y: 690 },
+        frame: (x, y) => {
+          this.$refs.parabolaPoint.style.left = `${x-circleRadius}px`;
+          this.$refs.parabolaPoint.style.top = `${y-circleRadius}px`;
+        },
+        callback: () => {
+          this.$refs.parabolaPoint.style.opacity = 0;
+        }
+      });
     },
 
     //购物车减少
@@ -139,9 +161,9 @@ export default {
       this.trolleysTotal--;
       //如果购物车中当前商品数量大于1 count-1
       //否则把当前商品从购物车中移除
-      let index = this.trolleys.findIndex(item=>currentGoods.goodsid == item.goodsid);
-      (this.trolleys[index].count > 1 ? this.trolleys[index].count -- : this.trolleys.splice(index,1));
-      storageUtils.setStorage('trolleys',this.trolleys);
+      let index = this.trolleys.findIndex(item => currentGoods.goodsid == item.goodsid);
+      (this.trolleys[index].count > 1 ? this.trolleys[index].count-- : this.trolleys.splice(index, 1));
+      storageUtils.setStorage('trolleys', this.trolleys);
     },
 
     //显示与隐藏优惠券模块
@@ -151,6 +173,7 @@ export default {
   },
   mounted() {
     this.initTrolley();
+    console.log(this.$refs.parabolaPoint.style);
     getGoosList().then(res => {
       console.log(res);
 
@@ -159,7 +182,7 @@ export default {
         let tempItem = item;
         tempItem.goodsList.map(goods => {
           let tempGoods = goods,
-          index = this.trolleys.findIndex(sub => sub.goodsid == tempGoods.goodsid);
+            index = this.trolleys.findIndex(sub => sub.goodsid == tempGoods.goodsid);
           tempGoods.count = index != -1 ? this.trolleys[index].count : 0;
           return tempGoods;
         });
@@ -168,18 +191,18 @@ export default {
 
       // 如果购入车中的商品与本次获取的商品信息不符
       // 更新存储的购物车数据
-      this.trolleys = this.trolleys.map(item=>{
-        for(let i=0;i<this.classList.length;i++){
+      this.trolleys = this.trolleys.map(item => {
+        for (let i = 0; i < this.classList.length; i++) {
           let currentGoods = this.classList[i].goodsList,
-           tempIndex = currentGoods.findIndex(sub=>sub.goodsid == item.goodsid);
-          if(tempIndex != -1){
-            if(JSON.stringify(currentGoods[tempIndex]) != JSON.stringify(item)) item = currentGoods[tempIndex];
+            tempIndex = currentGoods.findIndex(sub => sub.goodsid == item.goodsid);
+          if (tempIndex != -1) {
+            if (JSON.stringify(currentGoods[tempIndex]) != JSON.stringify(item)) item = currentGoods[tempIndex];
             break;
           }
         }
         return item;
       });
-      storageUtils.setStorage('trolleys',this.trolleys);
+      storageUtils.setStorage('trolleys', this.trolleys);
 
       //记录配置数据
       this.configs = res.data.configs;
@@ -203,7 +226,6 @@ export default {
 };
 
 </script>
-
 <style lang="less" scoped>
 @import './Shop.less';
 

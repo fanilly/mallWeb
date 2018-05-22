@@ -8,10 +8,10 @@
       <p class="goods-item-rside-info">{{ item.goodsname }}</p>
       <div class="goods-item-rside-control-box">
         <template v-if="item.count>=1">
-          <span class="icon-box reduce" @click.stop="reduce()"><i class="iconfont icon-iconjian"></i></span>
+          <span class="icon-box reduce" @click.stop="reduce"><i class="iconfont icon-iconjian"></i></span>
           <span class="count-box">{{item.count}}</span>
         </template>
-        <span class="icon-box plus" @click.stop="plus()"><i class="iconfont icon-iconjia"></i></span>
+        <span class="icon-box plus" @click.stop="plus"><i class="iconfont icon-iconjia"></i></span>
       </div>
     </section>
   </section>
@@ -40,19 +40,19 @@ export default {
     return {};
   },
   methods: {
-    plus() {
+    plus(e) {
       this.$emit('plus',{
         parentIndex:this.parentIndex,
         currentIndex:this.currentIndex,
         goodsId:this.item.goodsid
-      });
+      },e);
     },
-    reduce() {
+    reduce(e) {
       this.$emit('reduce',{
         parentIndex:this.parentIndex,
         currentIndex:this.currentIndex,
         goodsId:this.item.goodsid
-      });
+      },e);
     }
   },
   mounted() {
