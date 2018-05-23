@@ -1,0 +1,109 @@
+.container {
+  width: 100%;
+}
+
+.payment-btn {
+  position: fixed;
+  height: 1.1rem;
+  line-height: 1.1rem;
+  color: #fff;
+  background-color: #fe4e4e;
+  width: 100%;
+  bottom: 0;
+  font-size: .32rem;
+}
+
+.header {
+  border-bottom: .16rem solid #ecebf3;
+  padding: .4rem 0 .8rem;
+  h1 {
+    font-size: .38rem;
+    font-weight: normal;
+    font-family: 'Microsoft YaHei';
+    span {
+      display: inline-block;
+      width: .5rem;
+      height: .5rem;
+      background-color: #fe4e4e;
+      border-radius: 50%;
+      line-height: .5rem;
+      margin-right: .2rem;
+      i {
+        color: #fff;
+        position: relative;
+        top: -2px;
+      }
+    }
+  }
+  h2 {
+    font-size: .8rem;
+    padding-top: .5rem;
+    span {
+      font-size: .32rem;
+    }
+  }
+}
+
+.main {
+  text-align: left;
+  h2 {
+    padding: 0 .2rem;
+    font-size: .32rem;
+    font-weight: normal;
+    font-family: 'Microsoft YaHei';
+    border-bottom: 1px dashed #333;
+    line-height: .8rem;
+  }
+}
+
+.payment-item {
+  display: flex;
+  align-items: center;
+  padding: .25rem 0;
+  border-bottom: 1px dashed #cbcbcb;
+  &-lside {
+    width: 1.2rem;
+    text-align: center;
+    span i {
+      font-size: .8rem;
+    }
+  }
+  &-center {
+    flex: 1;
+    h3 {
+      font-size: .32rem;
+      color: #333;
+      font-weight: normal;
+    }
+    p {
+      font-size: .28rem;
+      color: #999;
+    }
+  }
+  &-rside {
+    padding-right: .2rem;
+    .choose-btn {
+      width: .5rem;
+      height: .5rem;
+      border-radius: 50%;
+      border: 1px solid #9fa4a8;
+      position: relative;
+      text-align: center;
+      line-height: .5rem;
+      span {
+        display: none;
+      }
+    }
+    .choosed {
+      background-color: #3cb036;
+      border-color: #3cb036;
+      span {
+        display: inline-block;
+        i {
+          font-size: .2rem;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

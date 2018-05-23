@@ -35,7 +35,12 @@ export default {
   },
   methods: {
     handleGoPayment() {
-
+      this.$router.push({
+        name:'Payment',
+        query:{
+          totalMoney:this.totalMoney
+        }
+      });
     },
     initTrolley() {
       let trolleys = storageUtils.getStorage('trolleys');
