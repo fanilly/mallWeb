@@ -7,6 +7,7 @@
       <h3 class="goods-item-rside-title">{{ item.goodsname }}</h3>
       <p class="goods-item-rside-info">{{ item.goodsname }}</p>
       <div class="goods-item-rside-control-box">
+        <h4><span>￥</span>{{item.shopprice}}</h4>
         <template v-if="item.count>=1">
           <span class="icon-box reduce" @click.stop="reduce"><i class="iconfont icon-iconjian"></i></span>
           <span class="count-box">{{item.count}}</span>

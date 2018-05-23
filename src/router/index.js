@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Welcome from '@/pages/Welcome/Welcome';
 
 const Shop = () => import('@/pages/Shop/Shop');
+const Settlement = () => import('@/pages/Settlement/Settlement');
 
 Vue.use(Router);
 
@@ -22,6 +23,14 @@ export default new Router({
       component: Shop,
       meta:{
         keepAlive:true
+      }
+    },
+    {
+      path:'/settlement',
+      name:'Settlement',
+      component: Settlement,
+      meta:{
+        keepAlive:false
       }
     }
   ]

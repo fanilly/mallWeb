@@ -64,8 +64,8 @@
     <!-- 底部 -->
     <footer class="trolley">
       <trolley-icon class="trolley-icon" :total="trolleysTotal"></trolley-icon>
-      <div class="count">总计 <span>￥300.00</span> 元</div>
-      <div class="btn">选好了</div>
+      <div class="count">总计 <span>￥{{totalMoney}}</span> 元</div>
+      <div class="btn" @click="handleGoSettlement">选好了</div>
     </footer>
   </section>
 </template>
@@ -94,6 +94,7 @@ export default {
       configs: {}, //商城配置
       trolleys: [], //购物车数据
       trolleysTotal: 0, //购物车总数
+      totalMoney:0,
       benefits: [{
         icon: 'icon-man',
         color: '#fb574e',
@@ -121,6 +122,7 @@ export default {
       let trolleys = storageUtils.getStorage('trolleys');
       this.trolleys = trolleys ? JSON.parse(trolleys) : [];
       this.trolleysTotal = this.trolleys.map(item => item.count).reduce((total, num) => total + num);
+      this.totalMoney = this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num);
     },
 
     //购物车添加
@@ -133,6 +135,7 @@ export default {
       let index = this.trolleys.findIndex(item => currentGoods.goodsid == item.goodsid);
       (index != -1 ? this.trolleys[index].count++ : this.trolleys.push(currentGoods));
       storageUtils.setStorage('trolleys', this.trolleys);
+      this.totalMoney = this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num);
 
       //抛物线动画
       let circleRadius = this.$refs.parabolaPoint.offsetWidth/2,
@@ -164,11 +167,23 @@ export default {
       let index = this.trolleys.findIndex(item => currentGoods.goodsid == item.goodsid);
       (this.trolleys[index].count > 1 ? this.trolleys[index].count-- : this.trolleys.splice(index, 1));
       storageUtils.setStorage('trolleys', this.trolleys);
+      this.totalMoney = this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num);
     },
 
     //显示与隐藏优惠券模块
     toggleCouponsShow() {
       this.showCoupons = !this.showCoupons;
+    },
+
+    //点击选好了
+    handleGoSettlement(){
+      if( this.trolleysTotal >= 1 ){
+        this.$router.push({
+          name:'Settlement'
+        });
+      }else{
+
+      }
     }
   },
   mounted() {
