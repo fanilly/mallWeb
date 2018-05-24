@@ -68,7 +68,6 @@ export default {
           this.$set(item, 'isCurrent', false);
         }
       });
-      console.log(tabPanels)
       this.callback && this.callback(label, val);
     }
   },
@@ -81,7 +80,7 @@ export default {
       tabPanels.forEach((panel, index) => {
         this.navList.push({ _uid: panel._uid, label: panel.label, tabkey: panel.tabkey });
 
-        if (panel.active || this.activeIndex === index) {
+        if (panel.active || panel.active === 'true' || this.activeIndex === index) {
           this.activeIndex = this.index = panel._uid;
           this.currentIndex = index;
         } else {

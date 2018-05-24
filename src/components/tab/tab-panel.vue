@@ -13,7 +13,9 @@ export default {
   },
   props: {
     label: String,
-    active: Boolean,
+    active: {
+      type: [Boolean, String]
+    },
     tabkey: [String, Number]
   },
   computed: {

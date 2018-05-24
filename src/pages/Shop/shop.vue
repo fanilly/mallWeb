@@ -41,8 +41,8 @@
 
     <section class="page-main">
       <tab :callback="handleToggleTab">
+        <!-- 商品 -->
         <tab-panel label="商品" tabkey="goods">
-          <!-- 商品 -->
           <main class="main">
             <scrolltab>
               <scrolltab-panel :label="item.catname" :icon="item.icon || ''" v-for="item,index in classList" :key="index">
@@ -62,7 +62,31 @@
             </scrolltab>
           </main>
         </tab-panel>
-        <tab-panel label="评价" tabkey="evaluate">评价</tab-panel>
+        <!-- 评价 -->
+        <tab-panel label="评价" tabkey="evaluate">
+          <section class="evaluate">
+            <section class="evaluate-header">
+              <section class="evaluate-header-lside">
+                <h3><span>4.3</span>综合评分</h3>
+              </section>
+              <section class="evaluate-header-rside">
+                <div class="item">
+                  <span class="lable">口味:</span>
+                  <rate slot="left" v-model="rateVal" :readonly="true"></rate>
+                  <span class="score">{{rateVal}}分</span>
+                </div>
+                <div class="item">
+                  <span class="lable">商家:</span>
+                  <rate slot="left" v-model="rateVal" :readonly="true"></rate>
+                  <span class="score">{{rateVal}}分</span>
+                </div>
+              </section>
+            </section>
+            <main class="evaluate-content">
+              <h1>评论列表</h1>
+            </main>
+          </section>
+        </tab-panel>
       </tab>
     </section>
 
@@ -81,6 +105,7 @@
 <script>
 import {scrolltabPanel,scrolltab} from '@/components/scrolltab/scrolltab.js';
 import {tab,tabPanel} from '@/components/tab/tab.js';
+import rate from '@/components/rate/rate.vue';
 
 import goodsItem from '@/components/goodsItem/goodsItem.vue';
 import coupon from '@/components/coupon/coupon.vue';
@@ -104,6 +129,7 @@ export default {
       trolleys: [], //购物车数据
       trolleysTotal: 0, //购物车总数
       totalMoney:0,
+      rateVal:3.7,
       benefits: [{
         icon: 'icon-man',
         color: '#fb574e',
@@ -128,8 +154,8 @@ export default {
   methods: {
 
     //选项卡切换
-    handleToggleTab(a,b){
-      console.log(a,b);
+    handleToggleTab(lable,tabkey){
+      if(tabkey !== 'evaluate') return;
     },
 
     //初始化购物车
@@ -256,6 +282,7 @@ export default {
     scrolltab,
     tab,
     tabPanel,
+    rate,
     goodsItem,
     coupon,
     trolleyIcon
