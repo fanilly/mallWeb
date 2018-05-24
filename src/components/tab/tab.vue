@@ -7,7 +7,7 @@
           v-for="item, key in navList"
           :key="key"
           :class="item._uid == activeIndex || key === activeIndex ? 'mj-tab-active' : ''"
-          @click="changeHandler(item.label, key, item._uid)">
+          @click="changeHandler(item.label, item.tabkey, item._uid)">
           <a href="javascript:">{{item.label}}</a>
         </li>
       </ul>
@@ -18,7 +18,6 @@
   </div>
 </template>
 <script>
-import { isColor } from '../../utils/check.js';
 
 export default {
   name: 'mj-tab',
@@ -40,11 +39,7 @@ export default {
       default: true
     },
     activeColor: {
-      validator(value) {
-        if (!value) return true;
-        return isColor(value);
-      },
-      default: '#FF5E53'
+      default: '#ff5e53'
     },
     horizontalScroll: {
       type: Boolean,
@@ -65,6 +60,7 @@ export default {
         if (val === key) {
           this.$set(item, 'isCurrent', true);
           label = item.label;
+          console.log(item);
           if (item.tabkey) {
             val = item.tabkey;
           }
@@ -72,6 +68,7 @@ export default {
           this.$set(item, 'isCurrent', false);
         }
       });
+      console.log(tabPanels)
       this.callback && this.callback(label, val);
     }
   },

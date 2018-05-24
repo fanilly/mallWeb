@@ -39,31 +39,34 @@
       </transition>
     </header>
 
-    <tab>
-      <tab-panel label="选项一">test</tab-panel>
-      <tab-panel label="选项二">test</tab-panel>
-    </tab>
+    <section class="page-main">
+      <tab :callback="handleToggleTab">
+        <tab-panel label="商品" tabkey="goods">
+          <!-- 商品 -->
+          <main class="main">
+            <scrolltab>
+              <scrolltab-panel :label="item.catname" :icon="item.icon || ''" v-for="item,index in classList" :key="index">
+                <section class="class-container">
+                  <goods-item
+                    v-for="(sub, key) in item.goodsList"
+                    :key="key"
+                    :item="sub"
+                    :baseurl="BASE_URL"
+                    :parentIndex="index"
+                    :currentIndex="key"
+                    @plus="plus"
+                    @reduce="reduce"
+                  ></goods-item>
+                </section>
+              </scrolltab-panel>
+            </scrolltab>
+          </main>
+        </tab-panel>
+        <tab-panel label="评价" tabkey="evaluate">评价</tab-panel>
+      </tab>
+    </section>
 
-    <!-- 商品 -->
-    <main class="main">
-      <scrolltab>
-        <scrolltab-panel :label="item.catname" :icon="item.icon || ''" v-for="item,index in classList" :key="index">
-          <section class="class-container">
-            <goods-item
-              v-for="(sub, key) in item.goodsList"
-              :key="key"
-              :item="sub"
-              :baseurl="BASE_URL"
-              :parentIndex="index"
-              :currentIndex="key"
-              @plus="plus"
-              @reduce="reduce"
-            ></goods-item>
-          </section>
-        </scrolltab-panel>
-      </scrolltab>
-    </main>
-
+    <!-- 抛物线使用的圆点 -->
     <section class="parabola-point" ref="parabolaPoint"></section>
 
     <!-- 底部 -->
@@ -76,10 +79,8 @@
 </template>
 
 <script>
-import scrolltabPanel from '@/components/scrolltab/scrolltab-panel.vue';
-import scrolltab from '@/components/scrolltab/scrolltab.vue';
-import tab from '@/components/tab/tab.vue';
-import tabPanel from '@/components/tab/tab-panel.vue';
+import {scrolltabPanel,scrolltab} from '@/components/scrolltab/scrolltab.js';
+import {tab,tabPanel} from '@/components/tab/tab.js';
 
 import goodsItem from '@/components/goodsItem/goodsItem.vue';
 import coupon from '@/components/coupon/coupon.vue';
@@ -125,6 +126,12 @@ export default {
     };
   },
   methods: {
+
+    //选项卡切换
+    handleToggleTab(a,b){
+      console.log(a,b);
+    },
+
     //初始化购物车
     initTrolley() {
       let trolleys = storageUtils.getStorage('trolleys');

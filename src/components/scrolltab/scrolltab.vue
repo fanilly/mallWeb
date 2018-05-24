@@ -44,7 +44,9 @@ export default {
     //初始化
     init() {
       this.scrollView = this.$refs.scrollView;
-      this.contentOffsetTop = this.scrollView.getBoundingClientRect().top;
+      this.contentOffsetTop = this.scrollView.getBoundingClientRect().top +100;
+      console.log(this.scrollView);
+      console.log(this.scrollView.getBoundingClientRect().top);
       this.bindEvent();
     },
 
