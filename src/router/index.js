@@ -2,12 +2,9 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Welcome from '@/pages/Welcome/Welcome';
 
-const Shop = () =>
-  import ('@/pages/Shop/Shop');
-const Settlement = () =>
-  import ('@/pages/Settlement/Settlement');
-const Payment = () =>
-  import ('@/pages/Payment/Payment');
+const Shop = () => import ('@/pages/Shop/Shop');
+const Settlement = () => import ('@/pages/Settlement/Settlement');
+const Payment = () => import ('@/pages/Payment/Payment');
 
 Vue.use(Router);
 

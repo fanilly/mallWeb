@@ -39,6 +39,23 @@
       </transition>
     </header>
 
+    <!-- 商品详情 -->
+    <section class="goods-detail">
+      <transition name="fade">
+        <goods-detail
+          v-if="showDetail"
+          :goodsData="goodsDetailData"
+          :baseurl="BASE_URL"
+          :detailParentIndex="detailParentIndex"
+          :detailCurrentIndex="detailCurrentIndex"
+          @plus="plus"
+          @reduce="reduce"
+          @maskHandle="maskHandle"
+        ></goods-detail>
+      </transition>
+    </section>
+
+
     <section class="page-main">
       <tab :callback="handleToggleTab">
         <!-- 商品 -->
@@ -47,16 +64,19 @@
             <scrolltab>
               <scrolltab-panel :label="item.catname" :icon="item.icon || ''" v-for="item,index in classList" :key="index">
                 <section class="class-container">
-                  <goods-item
+                  <section
                     v-for="(sub, key) in item.goodsList"
                     :key="key"
-                    :item="sub"
-                    :baseurl="BASE_URL"
-                    :parentIndex="index"
-                    :currentIndex="key"
-                    @plus="plus"
-                    @reduce="reduce"
-                  ></goods-item>
+                    @click="handleShowGoodsDetail(index,key)">
+                      <goods-item
+                        :item="sub"
+                        :baseurl="BASE_URL"
+                        :parentIndex="index"
+                        :currentIndex="key"
+                        @plus="plus"
+                        @reduce="reduce"
+                      ></goods-item>
+                    </section>
                 </section>
               </scrolltab-panel>
             </scrolltab>
@@ -94,7 +114,7 @@
     <section class="parabola-point" ref="parabolaPoint"></section>
 
     <!-- 底部 -->
-    <footer class="trolley">
+    <footer class="trolley" ref="footer">
       <trolley-icon class="trolley-icon" :total="trolleysTotal"></trolley-icon>
       <div class="count">总计 <span>￥{{totalMoney}}</span> 元</div>
       <div class="btn" @click="handleGoSettlement">选好了</div>
@@ -105,6 +125,7 @@
 <script>
 import {scrolltabPanel,scrolltab} from '@/components/scrolltab/scrolltab.js';
 import {tab,tabPanel} from '@/components/tab/tab.js';
+import goodsDetail from '@/components/goodsDetail/goodsDetail.vue';
 import rate from '@/components/rate/rate.vue';
 
 import goodsItem from '@/components/goodsItem/goodsItem.vue';
@@ -119,6 +140,9 @@ import {
 } from '@/api/index.js';
 import axios from 'axios';
 
+let pageHeight = document.body.offsetHeight,
+  trolleysIconHeight = 0;
+
 export default {
   name: 'Shop',
   data() {
@@ -128,6 +152,10 @@ export default {
       configs: {}, //商城配置
       trolleys: [], //购物车数据
       trolleysTotal: 0, //购物车总数
+      showDetail:false, //显示商品详情
+      detailParentIndex:0, //展示详情的商品分类索引
+      detailCurrentIndex:0, //展示详情的商品自身索引
+      goodsDetailData:null,
       totalMoney:0,
       rateVal:3.7,
       benefits: [{
@@ -152,6 +180,22 @@ export default {
     };
   },
   methods: {
+
+    //展示商品详情
+    handleShowGoodsDetail(parentIndex,index){
+      this.goodsDetailData = this.classList[parentIndex].goodsList[index];
+      this.detailParentIndex = parentIndex;
+      this.detailCurrentIndex = index;
+      this.showDetail = true;
+    },
+
+    //点击商品详情遮罩 隐藏商品详情
+    maskHandle(){
+      this.showDetail = false;
+      this.goodsDetailData = null;
+      this.detailParentIndex = 0;
+      this.detailCurrentIndex = 0;
+    },
 
     //选项卡切换
     handleToggleTab(lable,tabkey){
@@ -192,7 +236,7 @@ export default {
       this.$refs.parabolaPoint.style.top = `${y-circleRadius}px`;
       parabola({
         startPos: { x, y },
-        endPos: { x: 40, y: 690 },
+        endPos: { x: trolleysIconHeight - 10, y: pageHeight - trolleysIconHeight + 10 },
         frame: (x, y) => {
           this.$refs.parabolaPoint.style.left = `${x-circleRadius}px`;
           this.$refs.parabolaPoint.style.top = `${y-circleRadius}px`;
@@ -234,6 +278,8 @@ export default {
   },
   mounted() {
     this.initTrolley();
+    trolleysIconHeight = this.$refs.footer.offsetHeight;
+    console.log(trolleysIconHeight);
     console.log(this.$refs.parabolaPoint.style);
     getGoosList().then(res => {
       console.log(res);
@@ -284,6 +330,7 @@ export default {
     tabPanel,
     rate,
     goodsItem,
+    goodsDetail,
     coupon,
     trolleyIcon
   }
