@@ -39,6 +39,11 @@
       </transition>
     </header>
 
+    <tab>
+      <tab-panel label="选项一">test</tab-panel>
+      <tab-panel label="选项二">test</tab-panel>
+    </tab>
+
     <!-- 商品 -->
     <main class="main">
       <scrolltab>
@@ -73,6 +78,9 @@
 <script>
 import scrolltabPanel from '@/components/scrolltab/scrolltab-panel.vue';
 import scrolltab from '@/components/scrolltab/scrolltab.vue';
+import tab from '@/components/tab/tab.vue';
+import tabPanel from '@/components/tab/tab-panel.vue';
+
 import goodsItem from '@/components/goodsItem/goodsItem.vue';
 import coupon from '@/components/coupon/coupon.vue';
 import trolleyIcon from '@/components/trolleyIcon/trolleyIcon.vue';
@@ -121,8 +129,13 @@ export default {
     initTrolley() {
       let trolleys = storageUtils.getStorage('trolleys');
       this.trolleys = trolleys ? JSON.parse(trolleys) : [];
-      this.trolleysTotal = this.trolleys.map(item => item.count).reduce((total, num) => total + num);
-      this.totalMoney = this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num);
+      if(this.trolleys.length>=1){
+        this.trolleysTotal = this.trolleys.map(item => item.count).reduce((total, num) => total + num);
+        this.totalMoney = this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num);
+      }else{
+        this.trolleysTotal = 0;
+        this.totalMoney = 0;
+      }
     },
 
     //购物车添加
@@ -135,7 +148,7 @@ export default {
       let index = this.trolleys.findIndex(item => currentGoods.goodsid == item.goodsid);
       (index != -1 ? this.trolleys[index].count++ : this.trolleys.push(currentGoods));
       storageUtils.setStorage('trolleys', this.trolleys);
-      this.totalMoney = this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num);
+      this.totalMoney =  this.trolleys.length>=1 ? this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num) : 0;
 
       //抛物线动画
       let circleRadius = this.$refs.parabolaPoint.offsetWidth/2,
@@ -167,7 +180,7 @@ export default {
       let index = this.trolleys.findIndex(item => currentGoods.goodsid == item.goodsid);
       (this.trolleys[index].count > 1 ? this.trolleys[index].count-- : this.trolleys.splice(index, 1));
       storageUtils.setStorage('trolleys', this.trolleys);
-      this.totalMoney = this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num);
+      this.totalMoney = this.trolleys.length>=1 ? this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num) : 0;
     },
 
     //显示与隐藏优惠券模块
@@ -234,6 +247,8 @@ export default {
   components: {
     scrolltabPanel,
     scrolltab,
+    tab,
+    tabPanel,
     goodsItem,
     coupon,
     trolleyIcon

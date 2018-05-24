@@ -1,4 +1,23 @@
 @css-prefix: mj;
+
+@line-color: #eeedf2;
+@line-high-color: #eeedf2; //标题底线颜色
+
+//======== 【tab】 ========
+@tab-bg: #FFF;
+@tab-height: .85rem;
+@tab-fontsize: .28rem;
+@tab-color: #585858;
+@tab-break-color: @line-color;
+@tab-bottom-border-color: @line-high-color;
+
+.tap-color(@color, @opacity: .9) {
+  background-color: @color;
+  &:active {
+    background-color: @color * @opacity;
+  }
+}
+
 .text-overflow-ellipsis {
   overflow-x: hidden;
   text-overflow: ellipsis;

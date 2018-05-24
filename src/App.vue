@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <transition :name="transitionName">
+    <transition name="fade">
       <keep-alive v-if="$route.meta.keepAlive">
         <router-view class="child-view" />
       </keep-alive>
@@ -13,13 +13,13 @@ export default {
   name: 'App',
   data() {
     return {
-      transitionName: 'slide-left'
+      transitionName: ''
     };
   },
   watch: {
-    '$route' (to, from) {
-      this.transitionName = to.path.length == 1 ? 'slide-right' : 'slide-left';
-    }
+    // '$route' (to, from) {
+    //   // this.transitionName = to.path.length == 1 ? 'slide-right' : 'slide-left';
+    // }
   }
 };
 
