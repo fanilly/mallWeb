@@ -114,23 +114,25 @@
     <section class="parabola-point" ref="parabolaPoint"></section>
 
     <!-- 底部 -->
-    <footer class="trolley" ref="footer">
-      <trolley-icon class="trolley-icon" :total="trolleysTotal"></trolley-icon>
-      <div class="count">总计 <span>￥{{totalMoney}}</span> 元</div>
-      <div class="btn" @click="handleGoSettlement">选好了</div>
-    </footer>
+    <trolley
+      :totalMoney="totalMoney"
+      :total="trolleysTotal"
+      @initTrolleyPos="initTrolleyPos"
+      @handleClickBtn="handleGoSettlement"
+    ></trolley>
   </section>
 </template>
 
 <script>
-import {scrolltabPanel,scrolltab} from '@/components/scrolltab/scrolltab.js';
-import {tab,tabPanel} from '@/components/tab/tab.js';
+import { scrolltabPanel, scrolltab } from '@/components/scrolltab/scrolltab.js';
+import { tab, tabPanel } from '@/components/tab/tab.js';
 import goodsDetail from '@/components/goodsDetail/goodsDetail.vue';
 import rate from '@/components/rate/rate.vue';
 
 import goodsItem from '@/components/goodsItem/goodsItem.vue';
 import coupon from '@/components/coupon/coupon.vue';
-import trolleyIcon from '@/components/trolleyIcon/trolleyIcon.vue';
+import trolley from '@/components/trolleys/trolleys.vue';
+
 import { BASE_URL } from '@/api/urls.js';
 import storageUtils from '@/utils/Storage.js';
 import parabola from '@/utils/parabola.js';
@@ -140,8 +142,8 @@ import {
 } from '@/api/index.js';
 import axios from 'axios';
 
-let pageHeight = document.body.offsetHeight,
-  trolleysIconHeight = 0;
+let pageHeight = document.body.offsetHeight, //页面实际高度
+  trolleysIconHeight = 0; //购物车图片实际高度
 
 export default {
   name: 'Shop',
@@ -152,12 +154,12 @@ export default {
       configs: {}, //商城配置
       trolleys: [], //购物车数据
       trolleysTotal: 0, //购物车总数
-      showDetail:false, //显示商品详情
-      detailParentIndex:0, //展示详情的商品分类索引
-      detailCurrentIndex:0, //展示详情的商品自身索引
-      goodsDetailData:null,
-      totalMoney:0,
-      rateVal:3.7,
+      showDetail: false, //显示商品详情
+      detailParentIndex: 0, //展示详情的商品分类索引
+      detailCurrentIndex: 0, //展示详情的商品自身索引
+      goodsDetailData: null,
+      totalMoney: 0,
+      rateVal: 3.7,
       benefits: [{
         icon: 'icon-man',
         color: '#fb574e',
@@ -182,7 +184,7 @@ export default {
   methods: {
 
     //展示商品详情
-    handleShowGoodsDetail(parentIndex,index){
+    handleShowGoodsDetail(parentIndex, index) {
       this.goodsDetailData = this.classList[parentIndex].goodsList[index];
       this.detailParentIndex = parentIndex;
       this.detailCurrentIndex = index;
@@ -190,7 +192,7 @@ export default {
     },
 
     //点击商品详情遮罩 隐藏商品详情
-    maskHandle(){
+    maskHandle() {
       this.showDetail = false;
       this.goodsDetailData = null;
       this.detailParentIndex = 0;
@@ -198,21 +200,26 @@ export default {
     },
 
     //选项卡切换
-    handleToggleTab(lable,tabkey){
-      if(tabkey !== 'evaluate') return;
+    handleToggleTab(lable, tabkey) {
+      if (tabkey !== 'evaluate') return;
     },
 
     //初始化购物车
     initTrolley() {
       let trolleys = storageUtils.getStorage('trolleys');
       this.trolleys = trolleys ? JSON.parse(trolleys) : [];
-      if(this.trolleys.length>=1){
+      if (this.trolleys.length >= 1) {
         this.trolleysTotal = this.trolleys.map(item => item.count).reduce((total, num) => total + num);
-        this.totalMoney = this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num);
-      }else{
+        this.totalMoney = this.trolleys.map(item => item.shopprice * item.count).reduce((total, num) => total + num);
+      } else {
         this.trolleysTotal = 0;
         this.totalMoney = 0;
       }
+    },
+
+    //初始化购物车位置
+    initTrolleyPos(val) {
+      trolleysIconHeight = val;
     },
 
     //购物车添加
@@ -225,10 +232,10 @@ export default {
       let index = this.trolleys.findIndex(item => currentGoods.goodsid == item.goodsid);
       (index != -1 ? this.trolleys[index].count++ : this.trolleys.push(currentGoods));
       storageUtils.setStorage('trolleys', this.trolleys);
-      this.totalMoney =  this.trolleys.length>=1 ? this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num) : 0;
+      this.totalMoney = this.trolleys.length >= 1 ? this.trolleys.map(item => item.shopprice * item.count).reduce((total, num) => total + num) : 0;
 
       //抛物线动画
-      let circleRadius = this.$refs.parabolaPoint.offsetWidth/2,
+      let circleRadius = this.$refs.parabolaPoint.offsetWidth / 2,
         x = e.clientX,
         y = e.clientY;
       this.$refs.parabolaPoint.style.opacity = 1;
@@ -257,7 +264,7 @@ export default {
       let index = this.trolleys.findIndex(item => currentGoods.goodsid == item.goodsid);
       (this.trolleys[index].count > 1 ? this.trolleys[index].count-- : this.trolleys.splice(index, 1));
       storageUtils.setStorage('trolleys', this.trolleys);
-      this.totalMoney = this.trolleys.length>=1 ? this.trolleys.map(item => item.shopprice*item.count).reduce((total,num)=>total+num) : 0;
+      this.totalMoney = this.trolleys.length >= 1 ? this.trolleys.map(item => item.shopprice * item.count).reduce((total, num) => total + num) : 0;
     },
 
     //显示与隐藏优惠券模块
@@ -266,21 +273,18 @@ export default {
     },
 
     //点击选好了
-    handleGoSettlement(){
-      if( this.trolleysTotal >= 1 ){
+    handleGoSettlement() {
+      if (this.trolleysTotal >= 1) {
         this.$router.push({
-          name:'Settlement'
+          name: 'Settlement'
         });
-      }else{
+      } else {
 
       }
     }
   },
   mounted() {
     this.initTrolley();
-    trolleysIconHeight = this.$refs.footer.offsetHeight;
-    console.log(trolleysIconHeight);
-    console.log(this.$refs.parabolaPoint.style);
     getGoosList().then(res => {
       console.log(res);
 
@@ -332,7 +336,7 @@ export default {
     goodsItem,
     goodsDetail,
     coupon,
-    trolleyIcon
+    trolley
   }
 };
 
