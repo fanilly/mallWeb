@@ -37,6 +37,6 @@ export default {
 
 </script>
 <style lang="less" scoped>
-@import './trolleys.less';
+@import './footerTrolley.less';
 
 </style>

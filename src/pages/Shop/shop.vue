@@ -114,12 +114,12 @@
     <section class="parabola-point" ref="parabolaPoint"></section>
 
     <!-- 底部 -->
-    <trolley
+    <footer-trolley
       :totalMoney="totalMoney"
       :total="trolleysTotal"
       @initTrolleyPos="initTrolleyPos"
       @handleClickBtn="handleGoSettlement"
-    ></trolley>
+    ></footer-trolley>
   </section>
 </template>
 
@@ -131,7 +131,7 @@ import rate from '@/components/rate/rate.vue';
 
 import goodsItem from '@/components/goodsItem/goodsItem.vue';
 import coupon from '@/components/coupon/coupon.vue';
-import trolley from '@/components/trolleys/trolleys.vue';
+import footerTrolley from '@/components/footerTrolley/footerTrolley.vue';
 
 import { BASE_URL } from '@/api/urls.js';
 import storageUtils from '@/utils/Storage.js';
@@ -336,7 +336,7 @@ export default {
     goodsItem,
     goodsDetail,
     coupon,
-    trolley
+    footerTrolley
   }
 };
 
