@@ -4,8 +4,9 @@
     <section class="content">
       <section class="content-wapper">
         <img class="goods-poster" v-lazy="baseurl+goodsData.goodsimg" alt="">
+        <h1>{{goodsData.goodsname}}</h1>
         <div class="title-box">
-          <h2>{{goodsData.goodsname}}</h2>
+          <h2><span>￥</span>{{goodsData.shopprice}}</h2>
           <div class="control-box">
             <template v-if="goodsData.count>=1">
               <span class="icon-box reduce" @click.stop="reduce"><i class="iconfont icon-iconjian"></i></span>
@@ -44,11 +45,6 @@ export default {
   },
   methods: {
     plus(e) {
-      console.log({
-        parentIndex:this.detailParentIndex,
-        currentIndex:this.detailCurrentIndex,
-        goodsId:this.goodsData.goodsid
-      });
       this.$emit('plus',{
         parentIndex:this.detailParentIndex,
         currentIndex:this.detailCurrentIndex,

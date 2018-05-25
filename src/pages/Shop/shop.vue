@@ -119,6 +119,7 @@
       :total="trolleysTotal"
       @initTrolleyPos="initTrolleyPos"
       @handleClickBtn="handleGoSettlement"
+      @handleClickTrolley="handleClickTrolley"
     ></footer-trolley>
   </section>
 </template>
@@ -182,6 +183,14 @@ export default {
     };
   },
   methods: {
+
+    //点击底部购物车图标
+    handleClickTrolley(){
+      if(this.trolleysTotal<=0) return;
+      this.$router.push({
+        name:'Trolley'
+      });
+    },
 
     //展示商品详情
     handleShowGoodsDetail(parentIndex, index) {
