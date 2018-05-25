@@ -3,7 +3,6 @@
     <header class="header">
       <div class="avatar"><img src="../../assets/head.jpg" alt=""></div>
       <div class="nick-name">卮言</div>
-      <div class="del-btn"><span><i class="iconfont icon-shanchu"></i></span>删除</div>
     </header>
     <main class="main">
       <ul class="goods-list">
