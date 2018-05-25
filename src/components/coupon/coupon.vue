@@ -14,7 +14,7 @@
         <h4>满 2000 可用</h4>
         <p>有效期至2018-09-09</p>
       </section>
-      <section class="coupon-item-content-rside">
+      <section class="coupon-item-content-rside" @click="handleReceiveCoupon">
         <span>{{settings.isSelf*1 === 1 ? '已' : ''}}领取</span>
       </section>
     </section>
@@ -31,6 +31,11 @@ export default {
   },
   data() {
     return {};
+  },
+  methods: {
+    handleReceiveCoupon(){
+      this.$emit('handleReceiveCoupon');
+    }
   }
 };
 

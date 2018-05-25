@@ -8,7 +8,8 @@
 import HTTPS from './public.js';
 import {
   GET_GOODS_LIST_URL,
-  GET_COUPONS_URL
+  GET_COUPONS_URL,
+  RECEIVE_COUPON_URL
 } from './urls.js';
 
 const REQUESTS = {
@@ -19,8 +20,13 @@ const REQUESTS = {
   //获取优惠券信息
   getCoupons(options){
     return HTTPS.fetchGet(GET_COUPONS_URL,options);
+  },
+  //领取优惠券
+  receiveCoupon(){
+    return HTTPS.fetchGet(RECEIVE_COUPON_URL,options);
   }
 };
 
 export const getGoosList = REQUESTS.getGoosList;
 export const getCoupons = REQUESTS.getCoupons;
+export const receiveCoupon = REQUESTS.receiveCoupon;

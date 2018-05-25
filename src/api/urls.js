@@ -8,8 +8,9 @@
 const HOST = 'http://mall-seo.hohu.cc';
 const URLS = {
   HOST,
-  BASE_URL:`${HOST}/public/uploads/`,
+  BASE_URL: `${HOST}/public/uploads/`,
   GET_GOODS_LIST_URL: `${HOST}/goods/index`,
-  GET_COUPONS_URL:`${HOST}/Coupons/index`
+  GET_COUPONS_URL: `${HOST}/Coupons/index`,
+  RECEIVE_COUPON_URL: `${HOST}/Coupons/getCoupons`
 };
 module.exports = URLS;

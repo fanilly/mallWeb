@@ -9,7 +9,7 @@
         <section class="mall-info">
           <section class="mall-info-header">
             <section class="mall-info-header-lside">
-              <img v-lazy="configs.goodsimg" class="logo" alt="店铺头像">
+              <img v-lazy="BASE_URL+configs.goodsImg" class="logo" alt="店铺头像">
             </section>
             <section class="mall-info-header-rside">
               <h2 class="mall-name">{{configs.mallName}}</h2>
@@ -27,7 +27,13 @@
       <transition name="benefit">
         <section v-if="showCoupons">
           <section class="benefit">
-            <coupon v-for="(item,index) of coupons" :key="index" class="coupon" :settings="item"></coupon>
+            <coupon
+              v-for="(item,index) of coupons"
+              :key="index"
+              class="coupon"
+              :settings="item"
+              @handleReceiveCoupon="handleReceiveCoupon"
+            ></coupon>
           </section>
           <section class="benefit-info">
             <div v-for="(item,index) in benefits" :key="index">
@@ -139,7 +145,8 @@ import storageUtils from '@/utils/Storage.js';
 import parabola from '@/utils/parabola.js';
 import {
   getGoosList,
-  getCoupons
+  getCoupons,
+  receiveCoupon
 } from '@/api/index.js';
 import axios from 'axios';
 
@@ -284,6 +291,11 @@ export default {
     //显示与隐藏优惠券模块
     toggleCouponsShow() {
       this.showCoupons = !this.showCoupons;
+    },
+
+    //领取优惠券
+    handleReceiveCoupon(){
+      console.log(1);
     },
 
     //点击选好了
