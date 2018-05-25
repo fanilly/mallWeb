@@ -4,11 +4,13 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import lazyLoad from 'vue-lazyload';
+import FeedBack from './components/feedback/index.js';
 
 import './styles/common.less';
 import './styles/animate.less';
 import './iconfont/iconfont.css';
 
+Vue.use(FeedBack);
 Vue.use(lazyLoad, {
   error: require('./assets/loading-error.png')
 });

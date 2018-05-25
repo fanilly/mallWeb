@@ -4,7 +4,7 @@
       <!-- 店铺信息 -->
       <section class="header-wapper">
         <section class="search-box">
-          <section class="search-box-content">请输入关键词搜索商品</section>
+          <section class="search-box-content" @click="feedbackTest">请输入关键词搜索商品</section>
         </section>
         <section class="mall-info">
           <section class="mall-info-header">
@@ -183,6 +183,35 @@ export default {
     };
   },
   methods: {
+
+    feedbackTest(){
+      this.feedback.Alert({
+        msg:'test',
+        callback:()=>{
+          this.feedback.Confirm({
+            title:'温馨提示',
+            msg:'您的余额已不足，请及时充值',
+            options:[{
+              txt:'确定',
+              color:'red',
+              callback:()=>{
+                this.feedback.Toast({
+                  msg:'点击了确定'
+                });
+              }
+            },{
+              txt:'取消',
+              color:'green',
+              callback:()=>{
+                this.feedback.Toast({
+                  msg:'点击了取消'
+                });
+              }
+            }]
+          });
+        }
+      });
+    },
 
     //点击底部购物车图标
     handleClickTrolley(){
