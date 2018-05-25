@@ -42,6 +42,7 @@ export default {
     handleAddGoods() {
       this.$router.go(-1);
     },
+
     //初始化购物车
     initTrolley() {
       let trolleys = storageUtils.getStorage('trolleys');
@@ -54,11 +55,13 @@ export default {
         this.totalMoney = 0;
       }
     },
+
     //改变购物车数据
     changeTrolleys() {
       storageUtils.setStorage('trolleys', this.trolleys);
       this.totalMoney = this.trolleys.length >= 1 ? this.trolleys.map(item => item.shopprice * item.count).reduce((total, num) => total + num) : 0;
     },
+
     //减
     reduce(index) {
       this.trolleysTotal--;
@@ -68,25 +71,47 @@ export default {
         this.trolleys.splice(index, 1);
       this.changeTrolleys();
     },
+
     //加
     plus(index) {
       this.trolleysTotal++;
       this.trolleys[index].count++;
       this.changeTrolleys();
     },
+
     // 去结算
     handleGoSettlement() {
       this.$router.push({
-        name:'Settlement'
+        name: 'Settlement'
       });
     },
+
     //清空购物车
-    handleClearTrolley(){
-      this.trolleysTotal = 0;
-      this.trolleys = [];
-      this.totalMoney = 0;
-      storageUtils.setStorage('trolleys',this.trolleys);
-      this.$router.go(-1);
+    handleClearTrolley() {
+      this.feedback.Confirm({
+        title: '',
+        msg: '您确定要清空购物车吗？',
+        options: [{
+          txt: '确定',
+          color: '#0bb20c',
+          callback: () => {
+            this.trolleysTotal = 0;
+            this.trolleys = [];
+            this.totalMoney = 0;
+            storageUtils.setStorage('trolleys', this.trolleys);
+            this.feedback.Toast({
+              icon: 'success',
+              msg: '清除成功',
+              timeout: 1500,
+              callback: () => { this.$router.go(-1); }
+            });
+          }
+        }, {
+          txt: '取消',
+          color: '#999'
+        }]
+      });
+
     }
   },
   mounted() {
