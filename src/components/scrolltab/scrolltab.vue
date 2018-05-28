@@ -18,6 +18,7 @@
   </div>
 </template>
 <script>
+import ScrollTo from '@/utils/scrollTo.js';
 export default {
   name: 'mj-scrolltab',
   data() {
@@ -44,9 +45,7 @@ export default {
     //初始化
     init() {
       this.scrollView = this.$refs.scrollView;
-      this.contentOffsetTop = this.scrollView.getBoundingClientRect().top +100;
-      console.log(this.scrollView);
-      console.log(this.scrollView.getBoundingClientRect().top);
+      this.contentOffsetTop = this.scrollView.getBoundingClientRect().top + 100;
       this.bindEvent();
     },
 
@@ -64,6 +63,7 @@ export default {
     bindEvent() {
       this.scrollView.addEventListener('scroll', this.scrollHandler);
       window.addEventListener('resize', this.scrollHandler);
+      console.log('+++')
     },
 
     //设置默认位置
@@ -98,16 +98,8 @@ export default {
 
     //设置导航位置
     navInView(index = 0) {
-      let navitem = this.$refs['tabitem_' + index][0],
-        height = ~~navitem.offsetHeight;
-      if (navitem.offsetTop - height <= this.navtop) {
-        this.navtop -= height;
-      } else {
-        if (navitem.offsetTop + height * 3 >= this.scrollView.offsetHeight) {
-          this.navtop += height;
-        }
-      }
-      this.$refs.navbox.scrollTop = this.navtop;
+      let navitem = this.$refs['tabitem_' + index][0];
+      this.$refs.navbox.scrollTop = navitem.offsetTop-navitem.offsetHeight*2;
     },
 
     //监听滚动事件
@@ -132,10 +124,32 @@ export default {
           this.activeIndex = index;
         }
       });
+    },
+
+    //搜索
+    handleSearch(searchKeyWord){
+      console.log('---------------');
+      let items = [];
+      this.$children.forEach(item => {
+        for (let i = 0,tempChildren = item.$el.children; i < tempChildren.length; i++) {
+          if (tempChildren[i].nodeName == 'STRONG') {
+            items.push(tempChildren[i]);
+          } else {
+            if (tempChildren[i].children && tempChildren[i].children[0])
+              items.push(...tempChildren[i].children);
+          }
+        }
+      });
+      let searchLists = items.filter(item => item.innerText.indexOf(searchKeyWord) != -1);
+      if (searchLists.length >= 1){
+        ScrollTo(this.scrollView,this.scrollView.scrollTop,searchLists[0].offsetTop);
+        ScrollTo(window,0,500);
+      }
     }
   },
 
   watch: {
+
     //导航列表发生变化 初始化默认位置
     navList() {
       this.setDefault();
@@ -158,6 +172,9 @@ export default {
 
   mounted() {
     this.init();
+    this.$on('search',(serachKeyWord)=>{
+      this.handleSearch(serachKeyWord);
+    });
   },
 
   beforeDestroy() {
@@ -168,5 +185,6 @@ export default {
 
 </script>
 <style lang="less" scoped>
-  @import "./scrolltab.less";
+@import "./scrolltab.less";
+
 </style>

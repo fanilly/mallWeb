@@ -4,7 +4,7 @@
       <!-- 店铺信息 -->
       <section class="header-wapper">
         <section class="search-box">
-          <section class="search-box-content">请输入关键词搜索商品</section>
+          <input class="search-box-content" ref="searchBox" @blur="handleSearch" @keyup.enter="handleSearch" type="search" placeholder="请输入关键词搜索商品" name="">
         </section>
         <section class="mall-info">
           <section class="mall-info-header">
@@ -67,7 +67,7 @@
         <!-- 商品 -->
         <tab-panel label="商品" tabkey="goods">
           <main class="main">
-            <scrolltab>
+            <scrolltab ref="scrollTabBox">
               <scrolltab-panel :label="item.catname" :icon="item.icon || ''" v-for="item,index in classList" :key="index">
                 <section class="class-container">
                   <section
@@ -190,6 +190,11 @@ export default {
     };
   },
   methods: {
+
+    //搜索
+    handleSearch(){
+      this.$refs.scrollTabBox.$emit('search',this.$refs.searchBox.value);
+    },
 
     //点击底部购物车图标
     handleClickTrolley(){
@@ -315,7 +320,6 @@ export default {
     this.initTrolley();
     getGoosList().then(res => {
       console.log(res);
-
       //记录商品数据
       this.classList = res.data.goods.map(item => {
         let tempItem = item;
