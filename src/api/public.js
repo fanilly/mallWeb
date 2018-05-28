@@ -34,6 +34,18 @@ const publicRequests = {
         reject(err);
       });
     });
+  },
+  fetchFilePost(){
+    const instance = axios.create({
+      headers:{'Content-Type':'multipart/form-data'}
+    });
+    return new Promise((resolve, reject) => {
+      instance.post(url, params).then(res => {
+        resolve(res);
+      }).catch(err => {
+        reject(err);
+      });
+    });
   }
 };
 export default publicRequests;

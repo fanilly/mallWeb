@@ -240,6 +240,7 @@ export default {
 
     //展示商品详情
     handleShowGoodsDetail(parentIndex, index) {
+      document.body.style.overflow = 'hidden';
       this.goodsDetailData = this.classList[parentIndex].goodsList[index];
       this.detailParentIndex = parentIndex;
       this.detailCurrentIndex = index;
@@ -248,6 +249,7 @@ export default {
 
     //点击商品详情遮罩 隐藏商品详情
     maskHandle() {
+      document.body.style.overflow = 'auto';
       this.showDetail = false;
       this.goodsDetailData = null;
       this.detailParentIndex = 0;

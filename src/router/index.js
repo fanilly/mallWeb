@@ -6,6 +6,7 @@ const Shop = () => import ('@/pages/Shop/Shop');
 const Settlement = () => import ('@/pages/Settlement/Settlement');
 const Payment = () => import ('@/pages/Payment/Payment');
 const Trolley = () => import ('@/pages/Trolley/Trolley');
+const Evaluate = () => import ('@/pages/Evaluate/Evaluate');
 
 Vue.use(Router);
 
@@ -45,6 +46,13 @@ export default new Router({
       path: '/trolley',
       name: 'Trolley',
       component: Trolley,
+      mate: {
+        keepAlive: false
+      }
+    }, {
+      path: '/evaluate',
+      name: 'Evaluate',
+      component: Evaluate,
       mate: {
         keepAlive: false
       }
