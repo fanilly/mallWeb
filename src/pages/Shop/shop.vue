@@ -143,12 +143,13 @@ import footerTrolley from '@/components/footerTrolley/footerTrolley.vue';
 import { BASE_URL } from '@/api/urls.js';
 import storageUtils from '@/utils/Storage.js';
 import parabola from '@/utils/parabola.js';
+import ScrollTo from '@/utils/scrollTo.js';
+
 import {
   getGoosList,
   getCoupons,
   receiveCoupon
 } from '@/api/index.js';
-import axios from 'axios';
 
 let pageHeight = document.body.offsetHeight, //页面实际高度
   trolleysIconHeight = 0; //购物车图片实际高度
@@ -191,9 +192,37 @@ export default {
   },
   methods: {
 
-    //搜索
+    //触发搜索
     handleSearch(){
-      this.$refs.scrollTabBox.$emit('search',this.$refs.searchBox.value);
+      //开始搜索
+      const searchStart = function(searchKeyWord){
+        let items = []; //保存所有包含商品及分类名的DOM对象
+        this.$children.forEach(item => {
+          for (let i = 0,tempChildren = item.$el.children; i < tempChildren.length; i++) {
+            if (tempChildren[i].nodeName == 'STRONG') {
+              items.push(tempChildren[i]);
+            } else {
+              if (tempChildren[i].children && tempChildren[i].children[0])
+                items.push(...tempChildren[i].children);
+            }
+          }
+        });
+
+        //过滤所有内容包含搜索关键词的DOM对象
+        let searchLists = items.filter(item => item.innerText.indexOf(searchKeyWord) != -1);
+
+        if (searchLists.length >= 1){ //搜索到内容
+          ScrollTo(this.scrollView,this.scrollView.scrollTop,searchLists[0].offsetTop);
+          ScrollTo(window,0,500);
+        }else{  //未搜索的内容
+          this.feedback.Toast({
+            msg:'未搜索的内容',
+            timeout:1500
+          });
+        }
+      };
+      this.$refs.searchBox.blur();
+      searchStart.call(this.$refs.scrollTabBox,this.$refs.searchBox.value);
     },
 
     //点击底部购物车图标
@@ -243,10 +272,8 @@ export default {
       }
     },
 
-    //初始化购物车位置
-    initTrolleyPos(val) {
-      trolleysIconHeight = val;
-    },
+    //初始化购物车图标位置
+    initTrolleyPos(val) { trolleysIconHeight = val; },
 
     //购物车添加
     plus(options, e) {
@@ -294,9 +321,7 @@ export default {
     },
 
     //显示与隐藏优惠券模块
-    toggleCouponsShow() {
-      this.showCoupons = !this.showCoupons;
-    },
+    toggleCouponsShow() { this.showCoupons = !this.showCoupons; },
 
     //领取优惠券
     handleReceiveCoupon(){

@@ -18,7 +18,6 @@
   </div>
 </template>
 <script>
-import ScrollTo from '@/utils/scrollTo.js';
 export default {
   name: 'mj-scrolltab',
   data() {
@@ -124,27 +123,6 @@ export default {
           this.activeIndex = index;
         }
       });
-    },
-
-    //搜索
-    handleSearch(searchKeyWord){
-      console.log('---------------');
-      let items = [];
-      this.$children.forEach(item => {
-        for (let i = 0,tempChildren = item.$el.children; i < tempChildren.length; i++) {
-          if (tempChildren[i].nodeName == 'STRONG') {
-            items.push(tempChildren[i]);
-          } else {
-            if (tempChildren[i].children && tempChildren[i].children[0])
-              items.push(...tempChildren[i].children);
-          }
-        }
-      });
-      let searchLists = items.filter(item => item.innerText.indexOf(searchKeyWord) != -1);
-      if (searchLists.length >= 1){
-        ScrollTo(this.scrollView,this.scrollView.scrollTop,searchLists[0].offsetTop);
-        ScrollTo(window,0,500);
-      }
     }
   },
 
@@ -172,9 +150,6 @@ export default {
 
   mounted() {
     this.init();
-    this.$on('search',(serachKeyWord)=>{
-      this.handleSearch(serachKeyWord);
-    });
   },
 
   beforeDestroy() {
