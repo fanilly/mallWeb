@@ -9,7 +9,8 @@ import HTTPS from './public.js';
 import {
   GET_GOODS_LIST_URL,
   GET_COUPONS_URL,
-  RECEIVE_COUPON_URL
+  RECEIVE_COUPON_URL,
+  UPLOAD_URL
 } from './urls.js';
 
 const REQUESTS = {
@@ -22,8 +23,12 @@ const REQUESTS = {
     return HTTPS.fetchGet(GET_COUPONS_URL,options);
   },
   //领取优惠券
-  receiveCoupon(){
+  receiveCoupon(options){
     return HTTPS.fetchGet(RECEIVE_COUPON_URL,options);
+  },
+  //图片上传
+  uploadImg(options){
+    return HTTPS.fetchFilePost(UPLOAD_URL,options);
   }
 };
 

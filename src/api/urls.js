@@ -11,6 +11,7 @@ const URLS = {
   BASE_URL: `${HOST}/public/uploads/`,
   GET_GOODS_LIST_URL: `${HOST}/goods/index`,
   GET_COUPONS_URL: `${HOST}/Coupons/index`,
-  RECEIVE_COUPON_URL: `${HOST}/Coupons/getCoupons`
+  RECEIVE_COUPON_URL: `${HOST}/Coupons/getCoupons`,
+  UPLOAD_URL:`${HOST}/uploads`
 };
 module.exports = URLS;
