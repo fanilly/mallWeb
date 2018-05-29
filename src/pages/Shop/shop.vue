@@ -194,6 +194,8 @@ export default {
 
     //触发搜索
     handleSearch(){
+      let searchKeyWord = this.$refs.searchBox.value;
+      if(searchKeyWord == '' || searchKeyWord.trim() == '') return;
       //开始搜索
       const searchStart = function(searchKeyWord){
         let items = []; //保存所有包含商品及分类名的DOM对象
@@ -222,7 +224,7 @@ export default {
         }
       };
       this.$refs.searchBox.blur();
-      searchStart.call(this.$refs.scrollTabBox,this.$refs.searchBox.value);
+      searchStart.call(this.$refs.scrollTabBox,searchKeyWord);
     },
 
     //点击底部购物车图标
